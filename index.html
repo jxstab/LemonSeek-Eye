@@ -29,7 +29,7 @@
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             margin: 0;
-            padding: 20px 40px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -42,13 +42,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding: 20px 30px;
+            margin-bottom: 20px;
+            padding: 15px 20px;
             background: var(--bg-panel);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .header-title {
@@ -58,7 +60,7 @@
 
         .header h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             color: #fff;
             text-shadow: 0 0 15px var(--lemon-glow);
@@ -70,7 +72,7 @@
         }
 
         .header .author {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--text-muted);
             margin-top: 5px;
             font-family: 'Fira Code', monospace;
@@ -83,16 +85,16 @@
         .ping-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: rgba(0,0,0,0.3);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
         .ping-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background-color: var(--danger);
             box-shadow: 0 0 10px var(--danger);
@@ -112,23 +114,24 @@
 
         .ping-text {
             font-family: 'Fira Code', monospace;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
         }
 
         /* --- CONTENT PANELS --- */
         .content {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             flex: 1;
             min-height: 0;
+            flex-direction: row;
         }
 
         .panel {
             flex: 1;
             background: var(--bg-panel);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
@@ -138,8 +141,8 @@
 
         .panel-title {
             background: rgba(0, 0, 0, 0.4);
-            padding: 15px 25px;
-            font-size: 14px;
+            padding: 12px 20px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 2px;
             color: #fff;
@@ -153,9 +156,9 @@
         .panel-title .badge {
             background: var(--lemon);
             color: #000;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
             font-weight: bold;
         }
 
@@ -163,6 +166,7 @@
         .table-container {
             flex: 1;
             overflow-y: auto;
+            overflow-x: auto;
             padding: 0;
         }
 
@@ -170,6 +174,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
+            white-space: nowrap;
         }
 
         th {
@@ -177,8 +182,8 @@
             top: 0;
             background: rgba(15, 20, 28, 0.95);
             backdrop-filter: blur(5px);
-            padding: 15px 25px;
-            font-size: 12px;
+            padding: 12px 20px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-muted);
@@ -187,10 +192,10 @@
         }
 
         td {
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
             font-family: 'Fira Code', monospace;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s ease;
         }
 
@@ -210,13 +215,14 @@
 
         .world-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
             font-weight: 600;
             font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
         }
+
         .w-overworld { background: rgba(115, 218, 202, 0.1); color: var(--overworld); border: 1px solid rgba(115, 218, 202, 0.2); }
         .w-nether { background: rgba(247, 118, 142, 0.1); color: var(--nether); border: 1px solid rgba(247, 118, 142, 0.2); }
         .w-end { background: rgba(187, 154, 247, 0.1); color: var(--end); border: 1px solid rgba(187, 154, 247, 0.2); }
@@ -226,10 +232,10 @@
         .log-container {
             flex: 1;
             overflow-y: auto;
-            padding: 15px 25px;
+            padding: 12px 20px;
             font-family: 'Fira Code', monospace;
-            font-size: 13px;
-            line-height: 1.6;
+            font-size: 12px;
+            line-height: 1.5;
         }
 
         .log-entry {
@@ -237,6 +243,7 @@
             padding-left: 10px;
             border-left: 2px solid transparent;
             animation: slideIn 0.3s ease-out forwards;
+            word-wrap: break-word;
         }
 
         @keyframes slideIn {
@@ -244,16 +251,48 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        .log-time { color: var(--text-muted); margin-right: 10px; }
+        .log-time { color: var(--text-muted); margin-right: 8px; }
         .log-system { color: var(--text-muted); border-left-color: var(--text-muted); }
-        .log-alert { color: var(--danger); border-left-color: var(--danger); font-weight: 600; background: rgba(247, 118, 142, 0.05); padding: 5px 10px; border-radius: 0 4px 4px 0; }
+        .log-alert { color: var(--danger); border-left-color: var(--danger); font-weight: 600; background: rgba(247, 118, 142, 0.05); padding: 5px 8px; border-radius: 0 4px 4px 0; }
         .log-normal { color: var(--success); border-left-color: var(--success); }
 
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--lemon); }
 
+        /* =========================================
+           МЕДИА-ЗАПРОСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+           ========================================= */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                height: 100vh; 
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                flex-direction: column;
+            }
+
+            .panel {
+                height: calc(50vh - 60px); 
+            }
+
+            th, td {
+                padding: 10px 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -270,6 +309,7 @@
     </div>
 
     <div class="content">
+        <!-- ТАБЛИЦА ИГРОКОВ -->
         <div class="panel">
             <div class="panel-title">
                 Активные цели
@@ -291,6 +331,7 @@
             </div>
         </div>
 
+        <!-- ТЕРМИНАЛ ЛОГОВ -->
         <div class="panel">
             <div class="panel-title">
                 Терминал событий
@@ -307,22 +348,24 @@
         
         const TARGET_URL = "http://deepseek.sosu.pro:8080/tiles/players.json";
         
-        // Надежный прокси от Codetabs. Он не блочит локальные запуски.
+        // Надежный прокси-сервер для обхода CORS
         const PROXY_URL = `https://api.codetabs.com/v1/proxy?quest=${TARGET_URL}`;
         
         const NETHER_WORLD_NAME = "minecraft_the_nether";
         const MY_NICKNAME = "Jelikton";
         const ADMIN_NICKNAME = "rowdyslav";
         
+        // Кого не писать в логи о перемещениях
         const IGNORE_NOTIFICATIONS = new Set(["Lostgnt", "Amaxe501", "Konsaqq", MY_NICKNAME]);
 
+        // Координаты баз для защиты
         const BASES = {
             "Konsaqq": {x: 932, z: -1389, radius: 100, world: "minecraft_overworld", allowed: new Set(["Konsaqq", "Lostgnt", "Amaxe501"])},
             "Jelikton": {x: 663, z: 572, radius: 50, world: "minecraft_overworld", allowed: new Set([MY_NICKNAME])}
         };
 
         // ==========================================
-        // КОД РАДАРА (НИЖЕ НЕ ТРОГАТЬ)
+        // ЛОГИКА РАДАРА (НИЖЕ НЕ ТРОГАТЬ)
         // ==========================================
 
         let knownPlayers = {};
@@ -341,6 +384,7 @@
             div.innerHTML = `<span class="log-time">[${now}]</span>${message}`;
             
             container.appendChild(div);
+            // Лимит логов на странице
             if (container.children.length > 100) container.removeChild(container.firstChild);
             if (wasAtBottom) container.scrollTop = container.scrollHeight;
         }
@@ -359,7 +403,6 @@
             const currentTime = Date.now() / 1000;
             
             try {
-                // Добавляем случайный параметр, чтобы прокси не кешировал старые данные
                 const fetchUrl = `${PROXY_URL}&_nocache=${Date.now()}`;
                 
                 const response = await fetch(fetchUrl);
@@ -408,11 +451,13 @@
                     `;
                     tableBody.appendChild(tr);
 
+                    // Проверка Незера
                     if (world === NETHER_WORLD_NAME && !IGNORE_NOTIFICATIONS.has(name)) {
                         currentNether.add(name);
                         if (y > 123) currentRoof.add(name);
                     }
 
+                    // Проверка Баз
                     Object.keys(BASES).forEach(owner => {
                         const b = BASES[owner];
                         if (world === b.world && !b.allowed.has(name)) {
@@ -427,6 +472,7 @@
                 newInNether.forEach(p => addLog(`[НЕЗЕР] ${p} спустился в Ад (X:${currentOnline[p].x} Z:${currentOnline[p].z})`, "alert"));
                 inNether = currentNether;
 
+                // Логика Крыши Ада
                 let newOnRoof = new Set([...currentRoof].filter(x => !onNetherRoof.has(x)));
                 newOnRoof.forEach(p => addLog(`[КРЫША АДА] ⚠️ Игрок ${p} замечен на крыше! (X:${currentOnline[p].x} Y:${currentOnline[p].y} Z:${currentOnline[p].z})`, "alert"));
                 onNetherRoof = currentRoof;
@@ -483,14 +529,14 @@
             }
         }
 
+        // Стартовые логи
         addLog("=====================================", "system");
-        addLog(">> работает", "system");
-        addLog(">> прокси - yellow", "system");
-        addLog(">> stay", "success");
+        addLog(">> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...", "system");
+        addLog(">> success.", "success");
         addLog("=====================================", "system");
         
-        // Обновление каждые 4 секунды
-        setInterval(fetchRadarData, 4000);
+        // Обновление данных каждые 1 секунду
+        setInterval(fetchRadarData, 1000);
         fetchRadarData();
     </script>
 </body>
