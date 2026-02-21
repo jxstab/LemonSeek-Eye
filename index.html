@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LemonSeek Eye 👁️ | by jelikton</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #07090f;
+            --bg-panel: rgba(20, 25, 35, 0.7);
+            --text-main: #c0caf5;
+            --text-muted: #565f89;
+            --lemon: #fafa33; 
+            --lemon-glow: rgba(250, 250, 51, 0.3);
+            --danger: #f7768e;
+            --success: #9ece6a;
+            --overworld: #73daca;
+            --nether: #f7768e;
+            --end: #bb9af7;
+            --border: rgba(250, 250, 51, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(250, 250, 51, 0.03), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(250, 250, 51, 0.03), transparent 25%);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 20px 40px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px 30px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 15px var(--lemon-glow);
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: var(--lemon);
+        }
+
+        .header .author {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .header .author b {
+            color: var(--lemon);
+        }
+
+        .ping-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ping-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        .ping-dot.online {
+            background-color: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(158, 206, 106, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(158, 206, 106, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(158, 206, 106, 0); }
+        }
+
+        .ping-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* --- CONTENT PANELS --- */
+        .content {
+            display: flex;
+            gap: 25px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .panel {
+            flex: 1;
+            background: var(--bg-panel);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-title {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 25px;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+        }
+
+        .panel-title .badge {
+            background: var(--lemon);
+            color: #000;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* --- TABLE --- */
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 20, 28, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 15px 25px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            z-index: 10;
+        }
+
+        td {
+            padding: 15px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        tr:hover td {
+            background: rgba(250, 250, 51, 0.03);
+            color: #fff;
+        }
+
+        .coord { color: var(--text-muted); }
+        .coord-val { color: #fff; font-weight: 600; }
+
+        .tag-admin { 
+            color: var(--danger); 
+            text-shadow: 0 0 8px rgba(247, 118, 142, 0.5);
+            font-weight: bold; 
+        }
+
+        .world-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+        .w-overworld { background: rgba(115, 218, 202, 0.1); color: var(--overworld); border: 1px solid rgba(115, 218, 202, 0.2); }
+        .w-nether { background: rgba(247, 118, 142, 0.1); color: var(--nether); border: 1px solid rgba(247, 118, 142, 0.2); }
+        .w-end { background: rgba(187, 154, 247, 0.1); color: var(--end); border: 1px solid rgba(187, 154, 247, 0.2); }
+        .w-unknown { background: rgba(86, 95, 137, 0.1); color: var(--text-muted); border: 1px solid rgba(86, 95, 137, 0.2); }
+
+        /* --- LOGS --- */
+        .log-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 2px solid transparent;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-time { color: var(--text-muted); margin-right: 10px; }
+        .log-system { color: var(--text-muted); border-left-color: var(--text-muted); }
+        .log-alert { color: var(--danger); border-left-color: var(--danger); font-weight: 600; background: rgba(247, 118, 142, 0.05); padding: 5px 10px; border-radius: 0 4px 4px 0; }
+        .log-normal { color: var(--success); border-left-color: var(--success); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--lemon); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <h1>LemonSeek <span>Eye</span> 👁️</h1>
+            <div class="author">SYSTEM SECURED // CODED BY <b>JELIKTON</b></div>
+        </div>
+        <div class="ping-container">
+            <div id="ping-dot" class="ping-dot"></div>
+            <div id="ping-display" class="ping-text" style="color: var(--danger);">OFFLINE</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="panel">
+            <div class="panel-title">
+                Активные цели
+                <span class="badge" id="player-count">0 ONLINE</span>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Позывной</th>
+                            <th>Локация</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>Z</th>
+                        </tr>
+                    </thead>
+                    <tbody id="players-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">
+                Терминал событий
+                <span style="font-size: 10px; color: var(--text-muted); font-family: 'Fira Code';">LIVE FEED</span>
+            </div>
+            <div class="log-container" id="logs-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // НАСТРОЙКИ (МЕНЯТЬ ЗДЕСЬ)
+        // ==========================================
+        
+        const TARGET_URL = "http://deepseek.sosu.pro:8080/tiles/players.json";
+        
+        // Надежный прокси от Codetabs. Он не блочит локальные запуски.
+        const PROXY_URL = `https://api.codetabs.com/v1/proxy?quest=${TARGET_URL}`;
+        
+        const NETHER_WORLD_NAME = "minecraft_the_nether";
+        const MY_NICKNAME = "Jelikton";
+        const ADMIN_NICKNAME = "rowdyslav";
+        
+        const IGNORE_NOTIFICATIONS = new Set(["Lostgnt", "Amaxe501", "Konsaqq", MY_NICKNAME]);
+
+        const BASES = {
+            "Konsaqq": {x: 932, z: -1389, radius: 100, world: "minecraft_overworld", allowed: new Set(["Konsaqq", "Lostgnt", "Amaxe501"])},
+            "Jelikton": {x: 663, z: 572, radius: 50, world: "minecraft_overworld", allowed: new Set([MY_NICKNAME])}
+        };
+
+        // ==========================================
+        // КОД РАДАРА (НИЖЕ НЕ ТРОГАТЬ)
+        // ==========================================
+
+        let knownPlayers = {};
+        let inNether = new Set();
+        let onNetherRoof = new Set();
+        let inBases = {};
+        Object.keys(BASES).forEach(owner => inBases[owner] = new Set());
+
+        function addLog(message, tag = "normal") {
+            const container = document.getElementById('logs-container');
+            const wasAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 10;
+            
+            const now = new Date().toLocaleTimeString('ru-RU', { hour12: false });
+            const div = document.createElement('div');
+            div.className = `log-entry log-${tag}`;
+            div.innerHTML = `<span class="log-time">[${now}]</span>${message}`;
+            
+            container.appendChild(div);
+            if (container.children.length > 100) container.removeChild(container.firstChild);
+            if (wasAtBottom) container.scrollTop = container.scrollHeight;
+        }
+
+        function getWorldBadge(worldString) {
+            if (!worldString) return `<span class="world-badge w-unknown">Unknown</span>`;
+            const lower = worldString.toLowerCase();
+            if (lower.includes('nether')) return `<span class="world-badge w-nether">Nether</span>`;
+            if (lower.includes('end')) return `<span class="world-badge w-end">The End</span>`;
+            if (lower.includes('overworld')) return `<span class="world-badge w-overworld">Overworld</span>`;
+            return `<span class="world-badge w-unknown">${worldString.replace('minecraft_', '')}</span>`;
+        }
+
+        async function fetchRadarData() {
+            const fetchStartTime = performance.now();
+            const currentTime = Date.now() / 1000;
+            
+            try {
+                // Добавляем случайный параметр, чтобы прокси не кешировал старые данные
+                const fetchUrl = `${PROXY_URL}&_nocache=${Date.now()}`;
+                
+                const response = await fetch(fetchUrl);
+                if (!response.ok) throw new Error("Proxy error");
+                
+                const data = await response.json();
+                
+                // Расчет пинга
+                const fetchEndTime = performance.now();
+                const realPingMs = Math.round(fetchEndTime - fetchStartTime);
+                
+                document.getElementById('ping-dot').className = 'ping-dot online';
+                const pingText = document.getElementById('ping-display');
+                pingText.textContent = `${realPingMs} MS`;
+                pingText.style.color = "var(--success)";
+
+                const playersList = data.players || [];
+
+                document.getElementById('player-count').textContent = `${playersList.length} ONLINE`;
+                const tableBody = document.getElementById('players-table');
+                tableBody.innerHTML = '';
+
+                let currentOnline = {};
+                let currentNether = new Set();
+                let currentRoof = new Set();
+                let currentPlayersInBases = {};
+                Object.keys(BASES).forEach(owner => currentPlayersInBases[owner] = new Set());
+
+                playersList.forEach(p => {
+                    const name = p.name || "Unknown";
+                    const world = p.world || "Unknown";
+                    const x = parseInt(p.x || 0);
+                    const y = parseInt(p.y || 0);
+                    const z = parseInt(p.z || 0);
+
+                    currentOnline[name] = { world, x, y, z, time: currentTime, lastMoved: currentTime };
+
+                    const tr = document.createElement('tr');
+                    const isAdmin = name.toLowerCase() === ADMIN_NICKNAME.toLowerCase();
+                    tr.innerHTML = `
+                        <td class="${isAdmin ? 'tag-admin' : ''}">${isAdmin ? '⚠️ ' : ''}${name}</td>
+                        <td>${getWorldBadge(world)}</td>
+                        <td><span class="coord">X:</span> <span class="coord-val">${x}</span></td>
+                        <td><span class="coord">Y:</span> <span class="coord-val">${y}</span></td>
+                        <td><span class="coord">Z:</span> <span class="coord-val">${z}</span></td>
+                    `;
+                    tableBody.appendChild(tr);
+
+                    if (world === NETHER_WORLD_NAME && !IGNORE_NOTIFICATIONS.has(name)) {
+                        currentNether.add(name);
+                        if (y > 123) currentRoof.add(name);
+                    }
+
+                    Object.keys(BASES).forEach(owner => {
+                        const b = BASES[owner];
+                        if (world === b.world && !b.allowed.has(name)) {
+                            const dist = Math.sqrt(Math.pow(x - b.x, 2) + Math.pow(z - b.z, 2));
+                            if (dist <= b.radius) currentPlayersInBases[owner].add(name);
+                        }
+                    });
+                });
+
+                // Логика Незера
+                let newInNether = new Set([...currentNether].filter(x => !inNether.has(x)));
+                newInNether.forEach(p => addLog(`[НЕЗЕР] ${p} спустился в Ад (X:${currentOnline[p].x} Z:${currentOnline[p].z})`, "alert"));
+                inNether = currentNether;
+
+                let newOnRoof = new Set([...currentRoof].filter(x => !onNetherRoof.has(x)));
+                newOnRoof.forEach(p => addLog(`[КРЫША АДА] ⚠️ Игрок ${p} замечен на крыше! (X:${currentOnline[p].x} Y:${currentOnline[p].y} Z:${currentOnline[p].z})`, "alert"));
+                onNetherRoof = currentRoof;
+
+                // Логика Баз
+                Object.keys(BASES).forEach(owner => {
+                    let newInBase = new Set([...currentPlayersInBases[owner]].filter(x => !inBases[owner].has(x)));
+                    newInBase.forEach(p => addLog(`[ВТОРЖЕНИЕ] ⚠️ База ${owner} атакована! Цель: ${p}`, "alert"));
+                    inBases[owner] = currentPlayersInBases[owner];
+                });
+
+                // Входы / Перемещения
+                Object.keys(currentOnline).forEach(name => {
+                    const cData = currentOnline[name];
+                    if (!knownPlayers[name]) {
+                        if (name.toLowerCase() === ADMIN_NICKNAME.toLowerCase()) addLog(`[УГРОЗА] АДМИН ${name} ЗАШЕЛ НА СЕРВЕР!`, "alert");
+                        else if (!IGNORE_NOTIFICATIONS.has(name)) addLog(`[РАДАР] ${name} обнаружен в секторе ${cData.world.replace('minecraft_','')}`, "system");
+                    } else {
+                        const kData = knownPlayers[name];
+                        cData.lastMoved = kData.lastMoved || currentTime;
+
+                        if (kData.world !== cData.world && !IGNORE_NOTIFICATIONS.has(name)) {
+                            addLog(`[ТРАНЗИТ] ${name} переместился в ${cData.world.replace('minecraft_','')}`, "system");
+                        } else if (kData.world === cData.world) {
+                            const dist = Math.sqrt(Math.pow(cData.x - kData.x, 2) + Math.pow(cData.z - kData.z, 2));
+                            if (dist > 10) {
+                                cData.lastMoved = currentTime;
+                                if (dist > 40 && !IGNORE_NOTIFICATIONS.has(name)) {
+                                    const speed = (dist / (cData.time - kData.time)).toFixed(1);
+                                    const tagStr = speed > 20 ? "[ПОЛЕТ]" : "[ШАГ]";
+                                    addLog(`${tagStr} ${name} движется -> X:${cData.x} Z:${cData.z} (${speed} бл/с)`, "normal");
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Выходы
+                Object.keys(knownPlayers).forEach(name => {
+                    if (!currentOnline[name]) {
+                        if (name.toLowerCase() === ADMIN_NICKNAME.toLowerCase()) addLog(`[ИНФО] Админ ${name} покинул сервер`, "system");
+                        else if (!IGNORE_NOTIFICATIONS.has(name)) addLog(`[РАДАР] ${name} пропал с радаров (Последние коорд: X:${knownPlayers[name].x} Z:${knownPlayers[name].z})`, "system");
+                    }
+                });
+
+                knownPlayers = currentOnline;
+                
+            } catch (e) { 
+                console.error(e);
+                document.getElementById('ping-dot').className = 'ping-dot';
+                const pingText = document.getElementById('ping-display');
+                pingText.textContent = `ОШИБКА СВЯЗИ`;
+                pingText.style.color = "var(--danger)";
+            }
+        }
+
+        addLog("=====================================", "system");
+        addLog(">> работает", "system");
+        addLog(">> прокси - yellow", "system");
+        addLog(">> stay", "success");
+        addLog("=====================================", "system");
+        
+        // Обновление каждые 4 секунды
+        setInterval(fetchRadarData, 4000);
+        fetchRadarData();
+    </script>
+</body>
+</html>
